@@ -12,6 +12,8 @@ import { InfoModelsService } from '../../../app/services/infoModels.service';
 })
 export class HeroComponent {
   infoModel: InfoModel | undefined;
+  infoModelHealth: any;
+  showContent = false;
 
   constructor(private infoModelsService: InfoModelsService) { }
 
@@ -21,10 +23,16 @@ export class HeroComponent {
       console.log(this.infoModel);
     });
   }
-  showContent = false;
 
-toggleCard() {
-  this.showContent = !this.showContent;
-}
+  modelHealth(): void {
+    this.infoModelsService.getModelHealth().subscribe(data => {
+      this.infoModelHealth = data;
+      console.log(this.infoModelHealth);
+    });
+  }
+
+  toggleCard() {
+    this.showContent = !this.showContent;
+  }
 
 }

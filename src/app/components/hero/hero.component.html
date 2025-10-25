@@ -1,14 +1,11 @@
-<!-- pagina principal, home -->
-<section id="hero">
+
+<section >
   <div class="container mt-4">
     <div class="card w-50" >
-
       <div class="card-header text-white" (click)="toggleCard()">
        <button (click)="modelInfo()" class="btn btn-primary btn-sm">Info del modelo</button>
       </div>
-
       <div class="card-body" *ngIf="showContent">
-        
         <ul>
           @if (infoModel?.model_name) {
           <li>Nombre del modelo: {{ infoModel?.model_name }}</li>
@@ -33,5 +30,34 @@
         </ul>
       </div>
     </div>
+
+    <div class="card w-50" >
+      <div class="card-header text-white" (click)="toggleCard()">
+       <button (click)="modelHealth()" class="btn btn-primary btn-sm">Salud del modelo</button>
+      </div>
+
+      <div class="card-body" *ngIf="showContent">
+        
+        <ul>
+          @if (infoModelHealth?.status) {
+          <li>Estado: {{ infoModelHealth?.status }}</li>
+          }
+          @if (infoModelHealth?.model) {
+          <li>Descripción: {{ infoModelHealth?.model }}</li>
+          }
+         @if (infoModelHealth?.api_url) {
+          <li>URL de la API: {{ infoModelHealth?.api_url }}</li>
+          }
+          @if (infoModelHealth?.test_embedding_dimensions) {
+          <li>Dimensiones de la prueba de incrustación: {{ infoModelHealth?.test_embedding_dimensions }}</li>
+          }
+          @if (infoModelHealth?.token_configured) {
+          <li>Tokenización: {{ infoModelHealth?.token_configured }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+
+
   </div>
 </section>

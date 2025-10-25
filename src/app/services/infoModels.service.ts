@@ -16,4 +16,10 @@ export class InfoModelsService {
     const requestUrl = baseUrl ? `${baseUrl}/model-info` : '/api/model-info';
     return this.http.get<InfoModel>(requestUrl);
   }
+
+  getModelHealth(): Observable<any> {
+    const baseUrl = environment.apiUrl;
+    const requestUrl = baseUrl ? `${baseUrl}/health` : '/api/health';
+    return this.http.get<any>(requestUrl);
+  }
 }
