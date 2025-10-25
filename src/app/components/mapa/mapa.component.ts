@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
-import { GeolocalizacionesService } from '../../services/geolocalizaciones.service';
+//import { GeolocalizacionesService } from '../../services/geolocalizaciones.service';
 
 
 
@@ -50,19 +50,18 @@ export class MapaComponent implements OnInit, OnDestroy {
 
     private unsubscribeGeoloc: (() => void) | null = null;
 
-    constructor(private geolocSrv: GeolocalizacionesService) {}
+    //constructor(private geolocSrv: GeolocalizacionesService) {}
 
     ngOnInit(): void {
       this.initMap();
       // Carga inicial de registros existentes
-      this.geolocSrv.fetchExistingLocations().then(list => {
+      /* this.geolocSrv.fetchExistingLocations().then(list => {
         list.forEach(g => addMarkerToMap(this.map, g.latitud, g.longitud));
-      });
+      }); */
       // Suscripción realtime mínima a nuevas geolocalizaciones
-      this.unsubscribeGeoloc = this.geolocSrv.subscribeToNewLocations(geo => {
-        // Marcador con zIndex elevado para garantizar visibilidad sobre capas
+      /* this.unsubscribeGeoloc = this.geolocSrv.subscribeToNewLocations(geo => {
         addMarkerToMap(this.map, geo.latitud, geo.longitud);
-      });
+      }); */
     }
 
     ngOnDestroy(): void {

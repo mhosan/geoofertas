@@ -21,7 +21,7 @@ export class HeroComponent {
       console.log(this.infoModel);
     });
   }
-  showContent = true;
+  showContent = false;
 
 toggleCard() {
   this.showContent = !this.showContent;
