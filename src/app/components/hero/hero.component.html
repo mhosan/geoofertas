@@ -1,0 +1,37 @@
+<!-- pagina principal, home -->
+<section id="hero">
+  <div class="container mt-4">
+    <div class="card w-50" >
+
+      <div class="card-header text-white" (click)="toggleCard()">
+       <button (click)="modelInfo()" class="btn btn-primary btn-sm">Info del modelo</button>
+      </div>
+
+      <div class="card-body" *ngIf="showContent">
+        
+        <ul>
+          @if (infoModel?.model_name) {
+          <li>Nombre del modelo: {{ infoModel?.model_name }}</li>
+          }
+          @if (infoModel?.description) {
+          <li>Descripción: {{ infoModel?.description }}</li>
+          }
+          @if (infoModel?.dimensions) {
+          <li>Dimensiones del modelo: {{ infoModel?.dimensions }}</li>
+          }
+          @if (infoModel?.language) {
+          <li>Idioma: {{ infoModel?.language }}</li>
+          }
+          @if (infoModel?.use_case) {
+          <li>Caso de uso: {{ infoModel?.use_case }}</li>
+          }
+          @if (infoModel?.max_sequence_length) {
+          <li>Longitud máxima de secuencia (longitud máxima de tokens que el modelo puede procesar en una sola
+            entrada.):
+            {{ infoModel?.max_sequence_length }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { InfoModel } from '../../models/llmModels';
+import { InfoModelsService } from '../../../app/services/infoModels.service';
+
+@Component({
+  selector: 'app-hero',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './hero.component.html',
+  styleUrl: './hero.component.css'
+})
+export class HeroComponent {
+  infoModel: InfoModel | undefined;
+
+  constructor(private infoModelsService: InfoModelsService) { }
+
+  modelInfo(): void {
+    this.infoModelsService.getModelInfo().subscribe(data => {
+      this.infoModel = data;
+      console.log(this.infoModel);
+    });
+  }
+  showContent = true;
+
+toggleCard() {
+  this.showContent = !this.showContent;
+}
+
+}

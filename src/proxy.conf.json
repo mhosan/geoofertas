@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "https://embeddings-back.vercel.app",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}

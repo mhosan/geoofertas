@@ -1,0 +1,55 @@
+<header class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" routerLink="/">{{appName}}</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNav" routerLink="/features" routerLinkActive="active"><span class="menu-item-bg">Caract.</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNav" routerLink="/testimonials" routerLinkActive="active"><span class="menu-item-bg">Testimonios</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNav" routerLink="/pricing" routerLinkActive="active"><span class="menu-item-bg">Precios</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNav" routerLink="/contact" routerLinkActive="active"><span class="menu-item-bg">Contacto</span></a>
+          </li>
+          <li class="nav-item" *ngIf="supabaseService.user$ | async as user">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNav" routerLink="/admin" routerLinkActive="active"><span class="menu-item-bg">Admin</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNav" routerLink="/mapa" routerLinkActive="active"><span class="menu-item-bg">Mapeo</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNav" routerLink="/llm" routerLinkActive="active"><span class="menu-item-bg">LLM</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNav" routerLink="/ia" routerLinkActive="active"><span class="menu-item-bg">LLM MCP</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNav" routerLink="/chat" routerLinkActive="active"><span class="menu-item-bg">LLM7.io</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNav" routerLink="/gantt" routerLinkActive="active"><span class="menu-item-bg">Gantt</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNav" routerLink="/frappe" routerLinkActive="active"><span class="menu-item-bg">Frappe</span></a>
+          </li>
+        </ul>
+        <button class="btn btn-primary btn-sm me-2" (click)="mostrarCard = true">Comenzar ahora</button>
+      <app-user-menu></app-user-menu>
+      </div>
+    </div>
+  </header>
+
+<div *ngIf="mostrarCard" class="card mostrar-card-z mx-auto mt-3" style="max-width: 22rem; position: fixed; left: 0; right: 0; top: 80px; z-index: 9999;">
+  <div class="card-body text-center">
+    <h5 class="card-title">En construcción...</h5>
+    <button class="btn btn-secondary btn-sm mt-2" (click)="mostrarCard = false">Cerrar</button>
+  </div>
+</div>
+

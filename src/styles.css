@@ -1,0 +1,22 @@
+@import "../node_modules/leaflet/dist/leaflet.css";
+@import "../node_modules/frappe-gantt/dist/frappe-gantt.css";
+
+/* You can add global styles to this file, and also import other style files */
+section {
+    margin-top: 1vh;
+    height: 75vh;
+}
+
+/* .leaflet-control.leaflet-control-layers,
+.leaflet-control .leaflet-control-layers,
+.leaflet-top .leaflet-control .leaflet-control-layers {
+  background-color: beige;
+}
+
+.leaflet-control-layers-expanded {
+  max-height: 110px !important;
+  width: 200px !important;
+  overflow-y: auto !important;
+  padding: 6px 10px !important;
+}
+ */
