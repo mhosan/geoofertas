@@ -2,10 +2,10 @@
 <section >
   <div class="container mt-4">
     <div class="card w-50" >
-      <div class="card-header text-white" (click)="toggleCard()">
+      <div class="card-header text-white" (click)="toggleCardInfo()">
        <button (click)="modelInfo()" class="btn btn-primary btn-sm">Info del modelo</button>
       </div>
-      <div class="card-body" *ngIf="showContent">
+      <div class="card-body" *ngIf="showContentInfo"> 
         <ul>
           @if (infoModel?.model_name) {
           <li>Nombre del modelo: {{ infoModel?.model_name }}</li>
@@ -32,11 +32,11 @@
     </div>
 
     <div class="card w-50" >
-      <div class="card-header text-white" (click)="toggleCard()">
+      <div class="card-header text-white" (click)="toggleCardHealth()">
        <button (click)="modelHealth()" class="btn btn-primary btn-sm">Salud del modelo</button>
       </div>
 
-      <div class="card-body" *ngIf="showContent">
+      <div class="card-body" *ngIf="showContentHealth">
         
         <ul>
           @if (infoModelHealth?.status) {
@@ -55,6 +55,22 @@
           <li>Tokenización: {{ infoModelHealth?.token_configured }}</li>
           }
         </ul>
+      </div>
+    </div>
+
+    <div class="card w-50">
+      <div class="card-header text-black" (click)="toggleCardEmbeddingSingle()">
+        <h5 class="card-title mb-0">Embedding</h5>
+      </div>
+      <div class="card-body" *ngIf="showContentEmbeddingSingle">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Ingrese texto para procesar" [(ngModel)]="embeddingText">
+          <button class="btn btn-primary" type="button" (click)="getEmbedding()">Obtener Embedding</button>
+        </div>
+        <div *ngIf="embeddingResult">
+          <h6>Resultado:</h6>
+          <pre class="bg-light p-2"><code>{{ embeddingResult | json }}</code></pre>
+        </div>
       </div>
     </div>
 

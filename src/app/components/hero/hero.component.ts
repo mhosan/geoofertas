@@ -1,21 +1,27 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InfoModel } from '../../models/llmModels';
 import { InfoModelsService } from '../../../app/services/infoModels.service';
+import { EmbeddingService } from '../../services/embedding.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css'
 })
 export class HeroComponent {
   infoModel: InfoModel | undefined;
   infoModelHealth: any;
-  showContent = false;
+  showContentInfo = false;
+  showContentHealth = false;
+  showContentEmbeddingSingle = false;
+  embeddingText: string = '';
+  embeddingResult: any;
 
-  constructor(private infoModelsService: InfoModelsService) { }
+  constructor(private infoModelsService: InfoModelsService, private embeddingService: EmbeddingService) { }
 
   modelInfo(): void {
     this.infoModelsService.getModelInfo().subscribe(data => {
@@ -30,9 +36,26 @@ export class HeroComponent {
       console.log(this.infoModelHealth);
     });
   }
+ 
+  getEmbedding(): void {
+    if (!this.embeddingText.trim()) {
+      console.log('El texto para el embedding no puede estar vacío.');
+      return;
+    }
+    this.embeddingService.getEmbedding(this.embeddingText).subscribe(data => {
+      this.embeddingResult = data;
+      console.log('Embedding:', data);
+    });
+  }
 
-  toggleCard() {
-    this.showContent = !this.showContent;
+  toggleCardInfo() {
+    this.showContentInfo = !this.showContentInfo;
+  }
+  toggleCardHealth() {
+    this.showContentHealth = !this.showContentHealth;
+  }
+  toggleCardEmbeddingSingle() {
+    this.showContentEmbeddingSingle = !this.showContentEmbeddingSingle;
   }
 
 }

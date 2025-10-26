@@ -19,3 +19,4 @@ export class EmbeddingService {
     return this.http.post<any>(requestUrl, null, { params });
   }
 }
+ 
