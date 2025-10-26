@@ -17,7 +17,7 @@ export class HeroComponent {
   infoModelHealth: any;
   showContentInfo = false;
   showContentHealth = false;
-  showContentEmbeddingSingle = false;
+  showContentEmbeddingSingle = true;
   embeddingText: string = '';
   embeddingResult: any;
 

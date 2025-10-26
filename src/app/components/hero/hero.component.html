@@ -69,7 +69,7 @@
         </div>
         <div *ngIf="embeddingResult">
           <h6>Resultado:</h6>
-          <pre class="bg-light p-2"><code>{{ embeddingResult | json }}</code></pre>
+          <pre class="bg-light p-2" style="max-height: 230px; overflow: auto;"><code>{{ embeddingResult | json }}</code></pre>
         </div>
       </div>
     </div>
