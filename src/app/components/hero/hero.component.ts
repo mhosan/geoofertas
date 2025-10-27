@@ -70,6 +70,36 @@ export class HeroComponent {
     }
   }
 
+  // Manejador mínimo para el botón de Multi-Embedding.
+  // Valida la entrada 'raw' (texto que el usuario pone en el textarea),
+  // construye this.multiEmbeddingText como JSON válido y llama a getMultiEmbedding().
+  handleMultiEmbedding(raw: string): void {
+    this.multiEmbeddingError = null;
+    if (!raw || !raw.trim()) {
+      this.multiEmbeddingError = 'El texto para el multi-embedding no puede estar vacío.';
+      return;
+    }
+    // Normalizar: aceptar entradas como: "A", "B"  -> "A","B"
+    // - Separar por coma
+    // - Trim en cada elemento
+    // - Asegurar que cada elemento esté entre comillas dobles (si no, envolverlas)
+    const parts = raw.split(',').map(p => p.trim()).filter(p => p.length > 0);
+    const normalizedParts = parts.map(p => {
+      // si ya está entre comillas dobles, dejar
+      if (p.startsWith('"') && p.endsWith('"')) return p;
+      // si está entre comillas simples, convertir a dobles
+      if (p.startsWith("'") && p.endsWith("'")) {
+        const inner = p.slice(1, -1).replace(/"/g, '\\"');
+        return '"' + inner + '"';
+      }
+      // si no tiene comillas, escapar dobles internas y envolver
+      const escaped = p.replace(/"/g, '\\"');
+      return '"' + escaped + '"';
+    });
+    this.multiEmbeddingText = '{"texts":[' + normalizedParts.join(',') + ']}';
+    this.getMultiEmbedding();
+  }
+
   toggleCardInfo() {
     this.showContentInfo = !this.showContentInfo;
   }

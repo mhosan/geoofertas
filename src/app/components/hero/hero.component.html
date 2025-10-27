@@ -59,7 +59,7 @@
 
     <div class="card w-50">
       <div class="card-header text-black" (click)="toggleCardEmbeddingSingle()">
-        <h5 class="card-title mb-0">Embedding Single</h5>
+        <h5 class="card-title mb-0 btn-text">Embedding Single</h5>
       </div>
       <div class="card-body" *ngIf="showContentEmbeddingSingle">
         <button class="btn btn-primary btn-sm" type="button" (click)="getEmbedding()">Obtener Embedding</button>
@@ -76,15 +76,15 @@
 
     <div class="card w-50">
       <div class="card-header text-black" (click)="toggleCardEmbeddingMulti()">
-        <h5 class="card-title mb-0">Multi-Embedding</h5>
+        <h5 class="card-title mb-0 btn-text">Multi-Embedding</h5>
       </div>
       <div class="card-body" *ngIf="showContentEmbeddingMulti">
-        <button class="btn btn-primary btn-sm" type="button" (click)="getMultiEmbedding()">Obtener
+        <button class="btn btn-primary btn-sm" type="button" (click)="handleMultiEmbedding(rawMultiInput.value)">Obtener
           Multi-Embedding</button>
         <div class="input-group mb-3">
           <textarea class="form-control" rows="5"
-            placeholder='{\n  "texts": [\n    "Texto Uno",\n    "Texto Dos"\n  ]\n}'
-            [(ngModel)]="multiEmbeddingText"></textarea>
+            placeholder='Ingrese textos entre comillas dobles separados por comas: "Texto Uno","Texto Dos"'
+            #rawMultiInput></textarea>
         </div>
         <div *ngIf="multiEmbeddingError" class="alert alert-danger mt-2">
           {{ multiEmbeddingError }}

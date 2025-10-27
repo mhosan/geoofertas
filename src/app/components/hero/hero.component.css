@@ -1,0 +1,9 @@
+/* Typography helper to match Bootstrap button text style (minimal, non-invasive) */
+.btn-text {
+	font-weight: 400;
+	font-size: 1rem;
+	line-height: 1.5;
+	/* inherit font-family from page (Bootstrap sets this globally) */
+	font-family: inherit;
+}
+
