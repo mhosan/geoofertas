@@ -15,7 +15,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class HeroComponent {
   earliestDocuments: any[] = [];
+  latestDocuments: any[] = [];
+  documentsRange: any[] = [];
   earliestDocumentsCount: number = 5;
+  latestDocumentsCount: number = 5;
+  documentsRangeStartId: number = 0;
+  documentsRangeEndId: number = 0;
   infoModel: InfoModel | undefined;
   infoModelHealth: any;
   showContentInfo = false;
@@ -33,7 +38,19 @@ export class HeroComponent {
     // Cargar la info de documents al inicializar el componente
     this.loadDocumentsInfo();
     // Cargar los primeros n documentos al inicializar el componente
-    this.loadEarliestDocuments();
+    //this.loadEarliestDocuments();
+  }
+
+  // Método para obtener un rango de documentos
+  loadDocumentsRange(startId: number, endId: number): void {
+    this.embeddingService.getDocumentsRange(startId, endId).subscribe({
+      next: (data) => {
+        this.documentsRange = Array.isArray(data.documents_range) ? data.documents_range : [];
+      },
+      error: (err) => {
+        this.documentsRange = [];
+      }
+    });
   }
 
   // Método para obtener la info de documents
@@ -56,6 +73,18 @@ export class HeroComponent {
       },
       error: (err) => {
         this.earliestDocuments = [];
+      }
+    });
+  }
+
+  // Método para obtener los ultimos n documentos
+  loadLatestDocuments(n: number = 5): void {
+    this.embeddingService.getLatestDocuments(n).subscribe({
+      next: (data) => {
+        this.latestDocuments = Array.isArray(data.latest_documents) ? data.latest_documents : [];
+      },
+      error: (err) => {
+        this.latestDocuments = [];
       }
     });
   }

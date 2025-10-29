@@ -8,10 +8,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class EmbeddingService {
-
   constructor(private http: HttpClient) {}
-
-
   /**
    * Obtiene información sobre la tabla documents desde el endpoint externo.
    * @returns Observable<any> con la información de la tabla documents
@@ -21,7 +18,7 @@ export class EmbeddingService {
     const requestUrl = baseUrl ? `${baseUrl}/documents/info` : '/api/documents/info';
     return this.http.get<any>(requestUrl);
   }
-  
+
   /**
    * Obtiene los primeros n registros de la tabla documents.
    * @param n cantidad de registros a recuperar
@@ -34,6 +31,34 @@ export class EmbeddingService {
     return this.http.get<any>(requestUrl, { params });
   }
 
+  /**
+   * Obtiene los últimos n registros de la tabla documents.
+   * @param n cantidad de registros a recuperar
+   * @returns Observable<any> con los últimos n documentos
+   */
+  getLatestDocuments(n: number): Observable<any> {
+    const baseUrl = environment.apiUrl;
+    const requestUrl = baseUrl ? `${baseUrl}/documents/latest` : '/api/documents/latest';
+    const params = new HttpParams().set('n', n.toString());
+    return this.http.get<any>(requestUrl, { params });
+  }
+
+  /**
+   * Obtiene un rango de registros de la tabla documents.
+   * @param startId ID de inicio del rango
+   * @param endId ID de fin del rango
+   * @returns Observable<any> con los documentos en el rango especificado
+   * https://embeddings-back.vercel.app/documents/range?start_id=45&end_id=50
+   * @param text 
+   * @returns 
+   * https://embeddings-back.vercel.app/documents/range?start_id=45&end_id=50
+   */
+  getDocumentsRange(startId: number, endId: number): Observable<any> {
+    const baseUrl = environment.apiUrl;
+    const requestUrl = baseUrl ? `${baseUrl}/documents/range` : '/api/documents/range';
+    const params = new HttpParams().set('start_id', startId.toString()).set('end_id', endId.toString());
+    return this.http.get<any>(requestUrl, { params });
+  }
 
   getSingleEmbedding(text: string): Observable<any>{
     const baseUrl = environment.apiUrl;
