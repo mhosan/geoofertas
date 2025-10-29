@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -20,6 +21,19 @@ export class EmbeddingService {
     const requestUrl = baseUrl ? `${baseUrl}/documents/info` : '/api/documents/info';
     return this.http.get<any>(requestUrl);
   }
+  
+  /**
+   * Obtiene los primeros n registros de la tabla documents.
+   * @param n cantidad de registros a recuperar
+   * @returns Observable<any> con los primeros n documentos
+   */
+  getEarliestDocuments(n: number): Observable<any> {
+    const baseUrl = environment.apiUrl;
+    const requestUrl = baseUrl ? `${baseUrl}/documents/earliest` : '/api/documents/earliest';
+    const params = new HttpParams().set('n', n.toString());
+    return this.http.get<any>(requestUrl, { params });
+  }
+
 
   getSingleEmbedding(text: string): Observable<any>{
     const baseUrl = environment.apiUrl;

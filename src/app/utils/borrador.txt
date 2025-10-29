@@ -9,15 +9,13 @@
 
 ### 1. DEFINICIÓN EXACTA DE LA MODIFICACIÓN
 **Cambio solicitado:**
-Cambiar la forma en que el usuario debe ingresar los datos
-para generar multiples embeddings.
+Permitir ingresar un valor "n" en la card que muestra n primeros registros
+y llamar al método loadEarliestDocuments() con ese parametro ingresado
 
 [DESCRIPCIÓN ESPECÍFICA DE QUÉ MODIFICAR AQUÍ]
-Modificar el ingreso de datos por parte del usuario en el componente hero.component.html 
-para generar multiples embeddings, de forma tal que el usuario ingrese textos delimitados
-por comillas dobles para generar cada embedding y estos textos deben estar separados por 
-una coma. Cuando el usuario oprime el boton para generar los embeddings hay que construir
-un json con un array con todos esos textos. 
+Agregar un input box tipo numerico para ingresar un valor entero con la
+cantidad de registros a recuperar de la base de datos usando el método
+loadEarliestDocuments() al hacer click en un nuevo botón "OK"
 
 **Especificaciones obligatorias:**
 - [ ] Comportamiento ACTUAL a cambiar (específico)

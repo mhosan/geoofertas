@@ -1,4 +1,4 @@
-// ...existing imports and decorator...
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InfoModel } from '../../models/llmModels';
@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './hero.component.css'
 })
 export class HeroComponent {
+  earliestDocuments: any[] = [];
+  earliestDocumentsCount: number = 5;
   infoModel: InfoModel | undefined;
   infoModelHealth: any;
   showContentInfo = false;
@@ -25,9 +27,14 @@ export class HeroComponent {
   multiEmbeddingText: string = '{\n  "texts": [\n    "Texto Uno",\n    "Texto Dos"\n  ]\n}';
   multiEmbeddingResult: any;
   multiEmbeddingError: string | null = null;
-
-  // Propiedad para almacenar la info de documents
   documentsInfo: any = null;
+
+  constructor(private infoModelsService: InfoModelsService, private embeddingService: EmbeddingService) {
+    // Cargar la info de documents al inicializar el componente
+    this.loadDocumentsInfo();
+    // Cargar los primeros n documentos al inicializar el componente
+    this.loadEarliestDocuments();
+  }
 
   // Método para obtener la info de documents
   loadDocumentsInfo(): void {
@@ -41,9 +48,16 @@ export class HeroComponent {
     });
   }
 
-  constructor(private infoModelsService: InfoModelsService, private embeddingService: EmbeddingService) {
-    // Cargar la info de documents al inicializar el componente
-    this.loadDocumentsInfo();
+  // Método para obtener los primeros n documentos
+  loadEarliestDocuments(n: number = 5): void {
+    this.embeddingService.getEarliestDocuments(n).subscribe({
+      next: (data) => {
+        this.earliestDocuments = Array.isArray(data.earliest_documents) ? data.earliest_documents : [];
+      },
+      error: (err) => {
+        this.earliestDocuments = [];
+      }
+    });
   }
 
   modelInfo(): void {
@@ -59,7 +73,7 @@ export class HeroComponent {
       console.log(this.infoModelHealth);
     });
   }
- 
+
   getEmbedding(): void {
     if (!this.embeddingText.trim()) {
       alert('El texto para el embedding no puede estar vacío.');

@@ -1,36 +1,84 @@
-    <!-- Card fija en el ángulo superior derecho para info de documents -->
-    <div style="position: absolute; top: 24px; right: 24px; z-index: 1000; width: 350px;">
-      <div class="card border-primary">
-        <div class="card-header bg-primary text-white p-2">
-          <h6 class="mb-0">Info tabla documents</h6>
-        </div>
-        <div class="card-body p-2">
-          <div *ngIf="documentsInfo">
-            <div *ngIf="documentsInfo.error" class="text-danger">{{ documentsInfo.error }}</div>
-            <div *ngIf="!documentsInfo.error">
-              <div class="mb-2">
-                <strong>Cantidad de registros:</strong>
-                <span>{{ documentsInfo.count }}</span>
-              </div>
-              <div *ngIf="documentsInfo.earliest_created_at">
-                <strong>Primer registro:</strong>
-                <span>{{ documentsInfo.earliest_created_at | date:'dd/MM/yyyy' }}</span>
-              </div>
-              <div *ngIf="documentsInfo.latest_created_at">
-                <strong>Último registro:</strong>
-                <span>{{ documentsInfo.latest_created_at | date:'dd/MM/yyyy' }}</span>
-              </div>
-            </div>
+<!-- Card fija en el ángulo superior derecho para info de documents -->
+<div style="position: absolute; top: 24px; right: 24px; z-index: 1000; width: 350px;">
+  <div class="card border-primary">
+    <div class="card-header bg-primary text-white p-2">
+      <h6 class="mb-0">Info tabla documents</h6>
+    </div>
+    <div class="card-body p-2">
+      <div *ngIf="documentsInfo">
+        <div *ngIf="documentsInfo.error" class="text-danger">{{ documentsInfo.error }}</div>
+        <div *ngIf="!documentsInfo.error">
+          <div class="mb-2">
+            <strong>Cantidad de registros:&nbsp;</strong>
+            <span>{{ documentsInfo.count }}</span>
           </div>
-          <div *ngIf="!documentsInfo">
-            <span class="text-muted">Cargando información...</span>
+          <div *ngIf="documentsInfo.earliest_created_at">
+            <strong>Primer registro:&nbsp;</strong>
+            <span>{{ documentsInfo.earliest_created_at | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div *ngIf="documentsInfo.latest_created_at">
+            <strong>Último registro:&nbsp;</strong>
+            <span>{{ documentsInfo.latest_created_at | date:'dd/MM/yyyy' }}</span>
           </div>
         </div>
       </div>
+      <div *ngIf="!documentsInfo">
+        <span class="text-muted">Cargando información...</span>
+      </div>
     </div>
-<section>
-  <div class="container mt-4">
-    <div class="card w-50">
+  </div>
+</div>
+
+<!-- Card para los primeros n documentos -->
+<div
+    style="position: absolute; top: 24px; left: 49.3%; transform: translateX(-50%); z-index: 1000; width: 620px; max-height: 200px; overflow-y: auto;">
+  <div class="card border-info">
+    <div class="card-header bg-primary text-white p-2">
+      <h6 class="mb-0">Primeros registros</h6>
+    </div>
+    <div class="card-body p-2">
+      <div class="mb-2 d-flex align-items-center">
+        <label for="earliestDocumentsCount" class="me-2 mb-0">Cantidad:</label>
+        <input id="earliestDocumentsCount" type="number" min="1" [(ngModel)]="earliestDocumentsCount"
+          class="form-control form-control-sm w-auto me-2" />
+        <button class="btn btn-primary btn-sm" (click)="loadEarliestDocuments(earliestDocumentsCount)">OK</button>
+      </div>
+      <div *ngIf="earliestDocuments.length > 0">
+        <table class="table table-sm table-bordered mb-0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID</th>
+              <th>Texto</th>
+              <th>Fecha creación</th>
+              <th>Modelo</th>
+              <th>Timestamp</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doc of earliestDocuments; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ doc.id }}</td>
+              <td>{{ doc.content }}</td>
+              <td>{{ doc.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ doc.metadata?.model }}</td>
+              <td>{{ doc.metadata?.timestamp | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ doc.source }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="earliestDocuments.length === 0">
+        <span class="text-muted">Cargando registros...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section style="padding-left: 0; margin-left: 0;">
+  <div style="margin-left:10px; padding-left:0; margin-top: 24px;">
+    <div class="card w-25">
       <div class="card-header text-white" (click)="toggleCardInfo()">
         <button (click)="modelInfo()" class="btn btn-primary btn-sm">Info del modelo</button>
       </div>
@@ -60,13 +108,11 @@
       </div>
     </div>
 
-    <div class="card w-50">
+    <div class="card w-25">
       <div class="card-header text-white" (click)="toggleCardHealth()">
         <button (click)="modelHealth()" class="btn btn-primary btn-sm">Salud del modelo</button>
       </div>
-
       <div class="card-body" *ngIf="showContentHealth">
-
         <ul>
           @if (infoModelHealth?.status) {
           <li>Estado: {{ infoModelHealth?.status }}</li>
@@ -87,7 +133,7 @@
       </div>
     </div>
 
-    <div class="card w-50">
+    <div class="card w-25">
       <div class="card-header text-black" (click)="toggleCardEmbeddingSingle()">
         <h5 class="card-title mb-0 btn-text">Embedding Single</h5>
       </div>
@@ -104,7 +150,7 @@
       </div>
     </div>
 
-    <div class="card w-50">
+    <div class="card w-25">
       <div class="card-header text-black" (click)="toggleCardEmbeddingMulti()">
         <h5 class="card-title mb-0 btn-text">Multi-Embedding</h5>
       </div>
@@ -126,7 +172,5 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </section>
