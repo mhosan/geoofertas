@@ -14,6 +14,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './hero.component.css'
 })
 export class HeroComponent {
+  showEarliestTable: boolean = true;
+  showLatestTable: boolean = true;
+  showDocumentsRangeTable: boolean = false;
   earliestDocuments: any[] = [];
   latestDocuments: any[] = [];
   documentsRange: any[] = [];
@@ -46,11 +49,17 @@ export class HeroComponent {
     this.embeddingService.getDocumentsRange(startId, endId).subscribe({
       next: (data) => {
         this.documentsRange = Array.isArray(data.documents_range) ? data.documents_range : [];
+      this.showDocumentsRangeTable = true;
       },
       error: (err) => {
         this.documentsRange = [];
+      this.showDocumentsRangeTable = true;
       }
     });
+  }
+  closeDocumentsRangeTable(): void {
+    this.documentsRange = [];
+    this.showDocumentsRangeTable = false;
   }
 
   // Método para obtener la info de documents
@@ -70,11 +79,18 @@ export class HeroComponent {
     this.embeddingService.getEarliestDocuments(n).subscribe({
       next: (data) => {
         this.earliestDocuments = Array.isArray(data.earliest_documents) ? data.earliest_documents : [];
+        this.showEarliestTable = true;
       },
       error: (err) => {
         this.earliestDocuments = [];
+        this.showEarliestTable = true;
       }
     });
+
+  }
+  closeEarliestTable(): void {
+    this.earliestDocuments = [];
+    this.showEarliestTable = false;
   }
 
   // Método para obtener los ultimos n documentos
@@ -82,11 +98,17 @@ export class HeroComponent {
     this.embeddingService.getLatestDocuments(n).subscribe({
       next: (data) => {
         this.latestDocuments = Array.isArray(data.latest_documents) ? data.latest_documents : [];
+        this.showLatestTable = true;
       },
       error: (err) => {
         this.latestDocuments = [];
+        this.showLatestTable = true;
       }
     });
+  }
+  closeLatestTable(): void {
+    this.latestDocuments = [];
+    this.showLatestTable = false;
   }
 
   modelInfo(): void {
