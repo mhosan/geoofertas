@@ -1,3 +1,4 @@
+// ...existing imports and decorator...
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InfoModel } from '../../models/llmModels';
@@ -25,7 +26,25 @@ export class HeroComponent {
   multiEmbeddingResult: any;
   multiEmbeddingError: string | null = null;
 
-  constructor(private infoModelsService: InfoModelsService, private embeddingService: EmbeddingService) { }
+  // Propiedad para almacenar la info de documents
+  documentsInfo: any = null;
+
+  // Método para obtener la info de documents
+  loadDocumentsInfo(): void {
+    this.embeddingService.getDocumentsInfo().subscribe({
+      next: (data) => {
+        this.documentsInfo = data;
+      },
+      error: (err) => {
+        this.documentsInfo = { error: 'No se pudo obtener la información.' };
+      }
+    });
+  }
+
+  constructor(private infoModelsService: InfoModelsService, private embeddingService: EmbeddingService) {
+    // Cargar la info de documents al inicializar el componente
+    this.loadDocumentsInfo();
+  }
 
   modelInfo(): void {
     this.infoModelsService.getModelInfo().subscribe(data => {

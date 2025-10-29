@@ -1,3 +1,33 @@
+    <!-- Card fija en el ángulo superior derecho para info de documents -->
+    <div style="position: absolute; top: 24px; right: 24px; z-index: 1000; width: 350px;">
+      <div class="card border-primary">
+        <div class="card-header bg-primary text-white p-2">
+          <h6 class="mb-0">Info tabla documents</h6>
+        </div>
+        <div class="card-body p-2">
+          <div *ngIf="documentsInfo">
+            <div *ngIf="documentsInfo.error" class="text-danger">{{ documentsInfo.error }}</div>
+            <div *ngIf="!documentsInfo.error">
+              <div class="mb-2">
+                <strong>Cantidad de registros:</strong>
+                <span>{{ documentsInfo.count }}</span>
+              </div>
+              <div *ngIf="documentsInfo.earliest_created_at">
+                <strong>Primer registro:</strong>
+                <span>{{ documentsInfo.earliest_created_at | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <div *ngIf="documentsInfo.latest_created_at">
+                <strong>Último registro:</strong>
+                <span>{{ documentsInfo.latest_created_at | date:'dd/MM/yyyy' }}</span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!documentsInfo">
+            <span class="text-muted">Cargando información...</span>
+          </div>
+        </div>
+      </div>
+    </div>
 <section>
   <div class="container mt-4">
     <div class="card w-50">

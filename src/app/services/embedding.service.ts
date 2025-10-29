@@ -10,6 +10,16 @@ export class EmbeddingService {
 
   constructor(private http: HttpClient) {}
 
+
+  /**
+   * Obtiene información sobre la tabla documents desde el endpoint externo.
+   * @returns Observable<any> con la información de la tabla documents
+   */
+  getDocumentsInfo(): Observable<any> {
+    // Usar ruta relativa para que el proxy de Angular la redirija y evite CORS
+    return this.http.get<any>('/api/documents/info');
+  }
+
   getSingleEmbedding(text: string): Observable<any> {
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/embedding` : '/api/embedding';
