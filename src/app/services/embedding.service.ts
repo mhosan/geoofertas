@@ -16,11 +16,12 @@ export class EmbeddingService {
    * @returns Observable<any> con la información de la tabla documents
    */
   getDocumentsInfo(): Observable<any> {
-    // Usar ruta relativa para que el proxy de Angular la redirija y evite CORS
-    return this.http.get<any>('/api/documents/info');
+    const baseUrl = environment.apiUrl;
+    const requestUrl = baseUrl ? `${baseUrl}/documents/info` : '/api/documents/info';
+    return this.http.get<any>(requestUrl);
   }
 
-  getSingleEmbedding(text: string): Observable<any> {
+  getSingleEmbedding(text: string): Observable<any>{
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/embedding` : '/api/embedding';
     
