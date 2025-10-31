@@ -36,17 +36,32 @@ export class HeroComponent {
   multiEmbeddingResult: any;
   multiEmbeddingError: string | null = null;
   documentsInfo: any = null;
-  showDocumentsTabs = true;
+  activeTabId: string = 'primeros-tab-pane';
 
   constructor(private infoModelsService: InfoModelsService, private embeddingService: EmbeddingService) {
     // Cargar la info de documents al inicializar el componente
     this.loadDocumentsInfo();
-    // Cargar los primeros n documentos al inicializar el componente
-    //this.loadEarliestDocuments();
+  }
+
+  setActiveTab(tabId: string): void {
+    this.activeTabId = tabId;
   }
 
   closeDocumentsTabs(): void {
-    this.showDocumentsTabs = false;
+    switch (this.activeTabId) {
+      case 'primeros-tab-pane':
+        this.earliestDocuments = [];
+        this.showEarliestTable = false;
+        break;
+      case 'ultimos-tab-pane':
+        this.latestDocuments = [];
+        this.showLatestTable = false;
+        break;
+      case 'rango-tab-pane':
+        this.documentsRange = [];
+        this.showDocumentsRangeTable = false;
+        break;
+    }
   }
 
   // Método para obtener un rango de documentos
