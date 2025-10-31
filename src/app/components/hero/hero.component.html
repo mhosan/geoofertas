@@ -39,151 +39,162 @@
   </div>
 </div>
 
-<!-- Card para los primeros n documentos -->
-<div
-    style="position: absolute; top: 24px; left: 49.3%; transform: translateX(-50%); z-index: 10000; width: 620px; max-height: 350px; overflow-y: auto;">
-  <div class="card border-info">
-    <div class="card-header bg-primary text-white p-2 d-flex justify-content-between align-items-center">
-      <h6 class="mb-0">Primeros registros (máximo 100)</h6>
-      <button class="btn btn-sm btn-light" (click)="closeEarliestTable()" title="Cerrar">&times;</button>
+<!-- Contenedor de Pestañas para Documentos -->
+<div *ngIf="showDocumentsTabs"
+  style="position: absolute; top: 24px; left: 49.3%; transform: translateX(-50%); z-index: 10000; width: 620px;">
+  
+    <!-- Pestañas de Navegación -->
+    <div class="card-header d-flex justify-content-between align-items-center p-0 bg-primary">
+      <ul class="nav nav-tabs card-header-tabs" id="documentosTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active text-white bg-primary" id="primeros-tab" data-bs-toggle="tab"
+            data-bs-target="#primeros-tab-pane" type="button" role="tab" aria-controls="primeros-tab-pane"
+            aria-selected="true">Primeros</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link text-white bg-primary" id="ultimos-tab" data-bs-toggle="tab"
+            data-bs-target="#ultimos-tab-pane" type="button" role="tab" aria-controls="ultimos-tab-pane"
+            aria-selected="false">Últimos</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link text-white bg-primary" id="rango-tab" data-bs-toggle="tab"
+            data-bs-target="#rango-tab-pane" type="button" role="tab" aria-controls="rango-tab-pane"
+            aria-selected="false">Rango</button>
+        </li>
+      </ul>
+      
+      <button class="btn btn-sm btn-light me-2" (click)="closeDocumentsTabs()" title="Cerrar">&times;</button>
     </div>
-    <div class="card-body p-2">
-      <div class="mb-2 d-flex align-items-center">
-        <label for="earliestDocumentsCount" class="me-2 mb-0">Cantidad:</label>
-        <input id="earliestDocumentsCount" type="number" min="1" [(ngModel)]="earliestDocumentsCount"
-          class="form-control form-control-sm w-auto me-2" />
-        <button class="btn btn-primary btn-sm" (click)="loadEarliestDocuments(earliestDocumentsCount)">OK</button>
-      </div>
-      <div *ngIf="showEarliestTable && earliestDocuments.length > 0">
-        <table class="table table-sm table-bordered mb-0">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>ID</th>
-              <th>Texto</th>
-              <th>Fecha creación</th>
-              <th>Modelo</th>
-              <th>Timestamp</th>
-              <th>Source</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let doc of earliestDocuments; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ doc.id }}</td>
-              <td>{{ doc.content }}</td>
-              <td>{{ doc.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
-              <td>{{ doc.metadata?.model }}</td>
-              <td>{{ doc.metadata?.timestamp | date:'dd/MM/yyyy HH:mm' }}</td>
-              <td>{{ doc.source }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div *ngIf="!showEarliestTable || earliestDocuments.length === 0">
-        <span class="text-muted">Cargando registros...</span>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Card para los ultimos n documentos -->
-<div
-    style="position: absolute; top: 182px; left: 49.3%; transform: translateX(-50%); z-index: 8000; width: 620px; max-height: 300px; overflow-y: auto;">
-  <div class="card border-info">
-    <div class="card-header bg-primary text-white p-2 d-flex justify-content-between align-items-center">
-      <h6 class="mb-0">Últimos registros (máximo 100)</h6>
-      <button class="btn btn-sm btn-light" (click)="closeLatestTable()" title="Cerrar">&times;</button>
-    </div>
-    <div class="card-body p-2">
-      <div class="mb-2 d-flex align-items-center">
-        <label for="latestDocumentsCount" class="me-2 mb-0">Cantidad:</label>
-        <input id="latestDocumentsCount" type="number" min="1" [(ngModel)]="latestDocumentsCount"
-          class="form-control form-control-sm w-auto me-2" />
-        <button class="btn btn-primary btn-sm" (click)="loadLatestDocuments(latestDocumentsCount)">OK</button>
-      </div>
-      <div *ngIf="latestDocuments.length > 0">
-        <table class="table table-sm table-bordered mb-0">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>ID</th>
-              <th>Texto</th>
-              <th>Fecha creación</th>
-              <th>Modelo</th>
-              <th>Timestamp</th>
-              <th>Source</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let doc of latestDocuments; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ doc.id }}</td>
-              <td>{{ doc.content }}</td>
-              <td>{{ doc.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
-              <td>{{ doc.metadata?.model }}</td>
-              <td>{{ doc.metadata?.timestamp | date:'dd/MM/yyyy HH:mm' }}</td>
-              <td>{{ doc.source }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div *ngIf="latestDocuments.length === 0">
-        <span class="text-muted">Cargando registros...</span>
-      </div>
-    </div>
-  </div>
-</div>
+    <!-- Contenido de las Pestañas -->
+    <div class="card-body p-2" style="max-height: 350px; overflow-y: auto;">
+      <div class="tab-content" id="documentosTabContent">
 
-<!-- Card para un rango de documentos -->
-<div
-    style="position: absolute; top: 340px; left: 49.3%; transform: translateX(-50%); z-index: 6000; width: 620px; max-height: 200px; overflow-y: auto;">
-  <div class="card border-info">
-    <div class="card-header bg-primary text-white p-2 d-flex justify-content-between align-items-center">
-      <h6 class="mb-0">Rango de documentos (máximo 100)</h6>
-      <button class="btn btn-sm btn-light" (click)="closeDocumentsRangeTable()" title="Cerrar">&times;</button>
+        <!-- Pestaña: Primeros registros -->
+        <div class="tab-pane fade show active" id="primeros-tab-pane" role="tabpanel" aria-labelledby="primeros-tab"
+          tabindex="0">
+          <div class="mb-2 d-flex align-items-center">
+            <label for="earliestDocumentsCount" class="me-2 mb-0">Cantidad:</label>
+            <input id="earliestDocumentsCount" type="number" min="1" [(ngModel)]="earliestDocumentsCount"
+              class="form-control form-control-sm w-auto me-2" />
+            <button class="btn btn-primary btn-sm" (click)="loadEarliestDocuments(earliestDocumentsCount)">OK</button>
+          </div>
+          <div *ngIf="showEarliestTable && earliestDocuments.length > 0">
+            <table class="table table-sm table-bordered mb-0">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>ID</th>
+                  <th>Texto</th>
+                  <th>Fecha creación</th>
+                  <th>Modelo</th>
+                  <th>Timestamp</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let doc of earliestDocuments; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ doc.id }}</td>
+                  <td>{{ doc.content }}</td>
+                  <td>{{ doc.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td>{{ doc.metadata?.model }}</td>
+                  <td>{{ doc.metadata?.timestamp | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td>{{ doc.source }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="!showEarliestTable || earliestDocuments.length === 0">
+            <span class="text-muted">(mín: 1, max: 100)</span>
+          </div>
+        </div>
+
+        <!-- Pestaña: Últimos registros -->
+        <div class="tab-pane fade" id="ultimos-tab-pane" role="tabpanel" aria-labelledby="ultimos-tab" tabindex="0">
+          <div class="mb-2 d-flex align-items-center">
+            <label for="latestDocumentsCount" class="me-2 mb-0">Cantidad:</label>
+            <input id="latestDocumentsCount" type="number" min="1" [(ngModel)]="latestDocumentsCount"
+              class="form-control form-control-sm w-auto me-2" />
+            <button class="btn btn-primary btn-sm" (click)="loadLatestDocuments(latestDocumentsCount)">OK</button>
+          </div>
+          <div *ngIf="latestDocuments.length > 0">
+            <table class="table table-sm table-bordered mb-0">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>ID</th>
+                  <th>Texto</th>
+                  <th>Fecha creación</th>
+                  <th>Modelo</th>
+                  <th>Timestamp</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let doc of latestDocuments; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ doc.id }}</td>
+                  <td>{{ doc.content }}</td>
+                  <td>{{ doc.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td>{{ doc.metadata?.model }}</td>
+                  <td>{{ doc.metadata?.timestamp | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td>{{ doc.source }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="latestDocuments.length === 0">
+            <span class="text-muted">(mín: 1, max: 100)</span>
+          </div>
+        </div>
+
+        <!-- Pestaña: Rango de documentos -->
+        <div class="tab-pane fade" id="rango-tab-pane" role="tabpanel" aria-labelledby="rango-tab" tabindex="0">
+          <div class="mb-2 d-flex align-items-center">
+            <label for="documentsRangeStartId" class="me-2 mb-0">Desde ID:</label>
+            <input id="documentsRangeStartId" type="number" min="1" [(ngModel)]="documentsRangeStartId"
+              class="form-control form-control-sm w-auto me-2" />
+            <label for="documentsRangeEndId" class="me-2 mb-0">Hasta ID:</label>
+            <input id="documentsRangeEndId" type="number" min="1" [(ngModel)]="documentsRangeEndId"
+              class="form-control form-control-sm w-auto me-2" />
+            <button class="btn btn-primary btn-sm"
+              (click)="loadDocumentsRange(documentsRangeStartId, documentsRangeEndId)">OK</button>
+          </div>
+          <div *ngIf="documentsRange.length > 0">
+            <table class="table table-sm table-bordered mb-0">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>ID</th>
+                  <th>Texto</th>
+                  <th>Fecha creación</th>
+                  <th>Modelo</th>
+                  <th>Timestamp</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let doc of documentsRange; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ doc.id }}</td>
+                  <td>{{ doc.content }}</td>
+                  <td>{{ doc.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td>{{ doc.metadata?.model }}</td>
+                  <td>{{ doc.metadata?.timestamp | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td>{{ doc.source }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="documentsRange.length === 0">
+            <span class="text-muted">(mín: 1, max: 100)</span>
+          </div>
+        </div>
+
+      </div>
     </div>
-    <div class="card-body p-2">
-      <div class="mb-2 d-flex align-items-center">
-        <label for="documentsRangeStartId" class="me-2 mb-0">Desde ID:</label>
-        <input id="documentsRangeStartId" type="number" min="1" [(ngModel)]="documentsRangeStartId"
-          class="form-control form-control-sm w-auto me-2" />
-        <label for="documentsRangeEndId" class="me-2 mb-0">Hasta ID:</label>
-        <input id="documentsRangeEndId" type="number" min="1" [(ngModel)]="documentsRangeEndId"
-          class="form-control form-control-sm w-auto me-2" />
-        <button class="btn btn-primary btn-sm" (click)="loadDocumentsRange(documentsRangeStartId, documentsRangeEndId)">OK</button>
-      </div>
-      <div *ngIf="documentsRange.length > 0">
-        <table class="table table-sm table-bordered mb-0">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>ID</th>
-              <th>Texto</th>
-              <th>Fecha creación</th>
-              <th>Modelo</th>
-              <th>Timestamp</th>
-              <th>Source</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let doc of documentsRange; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ doc.id }}</td>
-              <td>{{ doc.content }}</td>
-              <td>{{ doc.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
-              <td>{{ doc.metadata?.model }}</td>
-              <td>{{ doc.metadata?.timestamp | date:'dd/MM/yyyy HH:mm' }}</td>
-              <td>{{ doc.source }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div *ngIf="documentsRange.length === 0">
-        <span class="text-muted">Cargando registros...</span>
-      </div>
-    </div>
-  </div>
+  
 </div>
 
 <!-- Sección de tarjetas para info del modelo, salud del modelo, embedding single y multi-embedding -->

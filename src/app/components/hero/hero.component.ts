@@ -36,12 +36,17 @@ export class HeroComponent {
   multiEmbeddingResult: any;
   multiEmbeddingError: string | null = null;
   documentsInfo: any = null;
+  showDocumentsTabs = true;
 
   constructor(private infoModelsService: InfoModelsService, private embeddingService: EmbeddingService) {
     // Cargar la info de documents al inicializar el componente
     this.loadDocumentsInfo();
     // Cargar los primeros n documentos al inicializar el componente
     //this.loadEarliestDocuments();
+  }
+
+  closeDocumentsTabs(): void {
+    this.showDocumentsTabs = false;
   }
 
   // Método para obtener un rango de documentos
@@ -56,10 +61,6 @@ export class HeroComponent {
       this.showDocumentsRangeTable = true;
       }
     });
-  }
-  closeDocumentsRangeTable(): void {
-    this.documentsRange = [];
-    this.showDocumentsRangeTable = false;
   }
 
   // Método para obtener la info de documents
@@ -87,10 +88,6 @@ export class HeroComponent {
       }
     });
 
-  }
-  closeEarliestTable(): void {
-    this.earliestDocuments = [];
-    this.showEarliestTable = false;
   }
 
   // Método para obtener los ultimos n documentos
@@ -124,11 +121,6 @@ export class HeroComponent {
         alert(`Error al eliminar el embedding con ID ${id}.`);
       }
     });
-  }
-
-  closeLatestTable(): void {
-    this.latestDocuments = [];
-    this.showLatestTable = false;
   }
 
   modelInfo(): void {
