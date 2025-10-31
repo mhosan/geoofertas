@@ -12,15 +12,25 @@
             <strong>Cantidad de registros:&nbsp;</strong>
             <span>{{ documentsInfo.count }}</span>
           </div>
-          <div *ngIf="documentsInfo.earliest_created_at">
+          <!-- <div *ngIf="documentsInfo.earliest_created_at">
             <strong>Primer registro:&nbsp;</strong>
             <span>{{ documentsInfo.earliest_created_at | date:'dd/MM/yyyy' }}</span>
           </div>
           <div *ngIf="documentsInfo.latest_created_at">
             <strong>Último registro:&nbsp;</strong>
             <span>{{ documentsInfo.latest_created_at | date:'dd/MM/yyyy' }}</span>
+          </div> -->
+          <!-- Borrar un embedding por su id -->
+          <div class="mb-2">
+            <span>Eliminar embedding por ID:&nbsp;</span>
+            <input #deleteIdInput type="number" class="form-control form-control-sm d-inline-block w-auto align-middle" placeholder="ID" />
+            <button class="btn btn-danger btn-sm mx-2 align-middle" (click)="deleteEmbeddingById(+deleteIdInput.value)">Eliminar</button>
+            <!-- El signo + que precede a deleteIdInput.value es un truco de JavaScript/TypeScript para convertir el valor
+             del input (que siempre es un texto/string) a un tipo numérico, ya que la función deleteEmbeddingById espera
+             recibir un número. -->
           </div>
         </div>
+
       </div>
       <div *ngIf="!documentsInfo">
         <span class="text-muted">Cargando información...</span>
@@ -125,7 +135,6 @@
   </div>
 </div>
 
-
 <!-- Card para un rango de documentos -->
 <div
     style="position: absolute; top: 340px; left: 49.3%; transform: translateX(-50%); z-index: 6000; width: 620px; max-height: 200px; overflow-y: auto;">
@@ -177,7 +186,7 @@
   </div>
 </div>
 
-
+<!-- Sección de tarjetas para info del modelo, salud del modelo, embedding single y multi-embedding -->
 <section style="padding-left: 0; margin-left: 0;">
   <div style="margin-left:10px; padding-left:0; margin-top: 24px;">
     <div class="card w-25">
@@ -237,13 +246,15 @@
 
     <div class="card w-25">
       <div class="card-header text-black" (click)="toggleCardEmbeddingSingle()">
-        <h5 class="card-title mb-0 btn-text">Embedding Single</h5>
+        <h5 class="card-title mb-0 btn-text">Generar un embedding a partir de un solo párrafo (Single-Embedding)</h5>
       </div>
       <div class="card-body" *ngIf="showContentEmbeddingSingle">
-        <button class="btn btn-primary btn-sm" type="button" (click)="getEmbedding()">Obtener Embedding</button>
+        
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Ingrese texto para procesar" [(ngModel)]="embeddingText">
         </div>
+        <button class="btn btn-primary btn-sm" type="button" (click)="getEmbedding()">Obtener Embedding</button>
+
         <div *ngIf="embeddingResult">
           <h6>Resultado:</h6>
           <pre class="bg-light p-2"
@@ -254,16 +265,18 @@
 
     <div class="card w-25">
       <div class="card-header text-black" (click)="toggleCardEmbeddingMulti()">
-        <h5 class="card-title mb-0 btn-text">Multi-Embedding</h5>
+        <h5 class="card-title mb-0 btn-text">Generar mas de un embedding a partir de varios párrafos (Multi-Embedding)</h5>
       </div>
       <div class="card-body" *ngIf="showContentEmbeddingMulti">
-        <button class="btn btn-primary btn-sm" type="button" (click)="handleMultiEmbedding(rawMultiInput.value)">Obtener
-          Multi-Embedding</button>
+        
         <div class="input-group mb-3">
           <textarea class="form-control" rows="5"
             placeholder='Ingrese textos entre comillas dobles separados por comas: "Texto Uno","Texto Dos"'
             #rawMultiInput></textarea>
         </div>
+        <button class="btn btn-primary btn-sm" type="button" (click)="handleMultiEmbedding(rawMultiInput.value)">Obtener
+          Multi-Embedding</button>
+
         <div *ngIf="multiEmbeddingError" class="alert alert-danger mt-2">
           {{ multiEmbeddingError }}
         </div>

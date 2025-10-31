@@ -9,21 +9,22 @@ import { environment } from '../../environments/environment';
 })
 export class EmbeddingService {
   constructor(private http: HttpClient) {}
-  /**
+
+  /*************************************************************************
    * Obtiene información sobre la tabla documents desde el endpoint externo.
    * @returns Observable<any> con la información de la tabla documents
-   */
+   ************************************************************************/
   getDocumentsInfo(): Observable<any> {
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/documents/info` : '/api/documents/info';
     return this.http.get<any>(requestUrl);
   }
 
-  /**
+  /*************************************************************************
    * Obtiene los primeros n registros de la tabla documents.
    * @param n cantidad de registros a recuperar
    * @returns Observable<any> con los primeros n documentos
-   */
+   ************************************************************************/
   getEarliestDocuments(n: number): Observable<any> {
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/documents/earliest` : '/api/documents/earliest';
@@ -58,6 +59,18 @@ export class EmbeddingService {
     const requestUrl = baseUrl ? `${baseUrl}/documents/range` : '/api/documents/range';
     const params = new HttpParams().set('start_id', startId.toString()).set('end_id', endId.toString());
     return this.http.get<any>(requestUrl, { params });
+  }
+
+  /*************************************************************************
+   * Borra un embedding por su ID.
+   * @param id 
+   * @returns 
+   *************************************************************************/
+  deleteEmbeddingById(id: number): Observable<any> {
+    const baseUrl = environment.apiUrl;
+    const requestUrl = baseUrl ? `${baseUrl}/documents/${id}` : `/api/documents/${id}`;
+    
+    return this.http.delete<any>(requestUrl);
   }
 
   getSingleEmbedding(text: string): Observable<any>{

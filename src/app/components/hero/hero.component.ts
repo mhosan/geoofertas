@@ -106,6 +106,26 @@ export class HeroComponent {
       }
     });
   }
+
+  /*************************************************************************
+   * Borra un embedding por su ID.
+   * @param id 
+   * @returns 
+   ************************************************************************/
+  deleteEmbeddingById(id: number): void {
+    if (!confirm(`¿Está seguro de que desea eliminar el embedding con ID ${id}?`)) {
+      return;
+    }
+    this.embeddingService.deleteEmbeddingById(id).subscribe({
+      next: (data) => {
+        alert(`Embedding con ID ${id} eliminado correctamente.`);
+      },
+      error: (err) => {
+        alert(`Error al eliminar el embedding con ID ${id}.`);
+      }
+    });
+  }
+
   closeLatestTable(): void {
     this.latestDocuments = [];
     this.showLatestTable = false;
