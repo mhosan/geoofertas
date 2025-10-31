@@ -23,8 +23,10 @@
           <!-- Borrar un embedding por su id -->
           <div class="mb-2">
             <span>Eliminar embedding por ID:&nbsp;</span>
-            <input #deleteIdInput type="number" class="form-control form-control-sm d-inline-block w-auto align-middle" placeholder="ID" />
-            <button class="btn btn-danger btn-sm mx-2 align-middle" (click)="deleteEmbeddingById(+deleteIdInput.value)">Eliminar</button>
+            <input #deleteIdInput type="number" class="form-control form-control-sm d-inline-block w-auto align-middle"
+              placeholder="ID" />
+            <button class="btn btn-danger btn-sm mx-2 align-middle"
+              (click)="deleteEmbeddingById(+deleteIdInput.value)">Eliminar</button>
             <!-- El signo + que precede a deleteIdInput.value es un truco de JavaScript/TypeScript para convertir el valor
              del input (que siempre es un texto/string) a un tipo numérico, ya que la función deleteEmbeddingById espera
              recibir un número. -->
@@ -40,8 +42,7 @@
 </div>
 
 <!-- Contenedor de Pestañas para Documentos -->
-<div
-  style="position: absolute; top: 24px; left: 49.3%; transform: translateX(-50%); z-index: 10000; width: 620px;">
+<div style="position: absolute; top: 24px; left: 49.3%; transform: translateX(-50%); z-index: 10000; width: 620px;">
   <div class="card border-info">
     <!-- Pestañas de Navegación -->
     <div class="card-header bg-primary d-flex justify-content-between align-items-center p-0">
@@ -194,109 +195,107 @@
 
       </div>
     </div>
-  
+
+  </div>
 </div>
 
 <!-- Sección de tarjetas para info del modelo, salud del modelo, embedding single y multi-embedding -->
-<section style="padding-left: 0; margin-left: 0;">
-  <div style="margin-left:10px; padding-left:0; margin-top: 24px;">
-    <div class="card w-25">
-      <div class="card-header text-white" (click)="toggleCardInfo()">
-        <button (click)="modelInfo()" class="btn btn-primary btn-sm">Info del modelo</button>
-      </div>
-      <div class="card-body" *ngIf="showContentInfo">
-        <ul>
-          @if (infoModel?.model_name) {
-          <li>Nombre del modelo: {{ infoModel?.model_name }}</li>
-          }
-          @if (infoModel?.description) {
-          <li>Descripción: {{ infoModel?.description }}</li>
-          }
-          @if (infoModel?.dimensions) {
-          <li>Dimensiones del modelo: {{ infoModel?.dimensions }}</li>
-          }
-          @if (infoModel?.language) {
-          <li>Idioma: {{ infoModel?.language }}</li>
-          }
-          @if (infoModel?.use_case) {
-          <li>Caso de uso: {{ infoModel?.use_case }}</li>
-          }
-          @if (infoModel?.max_sequence_length) {
-          <li>Longitud máxima de secuencia (longitud máxima de tokens que el modelo puede procesar en una sola
-            entrada.):
-            {{ infoModel?.max_sequence_length }}</li>
-          }
-        </ul>
-      </div>
+<div class="card w-25" style="margin-top: 24px;">
+  <div class="card-header text-white" (click)="toggleCardInfo()">
+    <button (click)="modelInfo()" class="btn btn-primary btn-sm">Info del modelo</button>
+  </div>
+  <div class="card-body" *ngIf="showContentInfo">
+    <ul>
+      @if (infoModel?.model_name) {
+      <li>Nombre del modelo: {{ infoModel?.model_name }}</li>
+      }
+      @if (infoModel?.description) {
+      <li>Descripción: {{ infoModel?.description }}</li>
+      }
+      @if (infoModel?.dimensions) {
+      <li>Dimensiones del modelo: {{ infoModel?.dimensions }}</li>
+      }
+      @if (infoModel?.language) {
+      <li>Idioma: {{ infoModel?.language }}</li>
+      }
+      @if (infoModel?.use_case) {
+      <li>Caso de uso: {{ infoModel?.use_case }}</li>
+      }
+      @if (infoModel?.max_sequence_length) {
+      <li>Longitud máxima de secuencia (longitud máxima de tokens que el modelo puede procesar en una sola
+        entrada.):
+        {{ infoModel?.max_sequence_length }}</li>
+      }
+    </ul>
+  </div>
+</div>
+
+<div class="card w-25">
+  <div class="card-header text-white" (click)="toggleCardHealth()">
+    <button (click)="modelHealth()" class="btn btn-primary btn-sm">Salud del modelo</button>
+  </div>
+  <div class="card-body" *ngIf="showContentHealth">
+    <ul>
+      @if (infoModelHealth?.status) {
+      <li>Estado: {{ infoModelHealth?.status }}</li>
+      }
+      @if (infoModelHealth?.model) {
+      <li>Descripción: {{ infoModelHealth?.model }}</li>
+      }
+      @if (infoModelHealth?.api_url) {
+      <li>URL de la API: {{ infoModelHealth?.api_url }}</li>
+      }
+      @if (infoModelHealth?.test_embedding_dimensions) {
+      <li>Dimensiones de la prueba de incrustación: {{ infoModelHealth?.test_embedding_dimensions }}</li>
+      }
+      @if (infoModelHealth?.token_configured) {
+      <li>Tokenización: {{ infoModelHealth?.token_configured }}</li>
+      }
+    </ul>
+  </div>
+</div>
+
+<div class="card w-25">
+  <div class="card-header text-black" (click)="toggleCardEmbeddingSingle()">
+    <h5 class="card-title mb-0 btn-text">Generar un embedding a partir de un solo párrafo (Single-Embedding)</h5>
+  </div>
+  <div class="card-body" *ngIf="showContentEmbeddingSingle">
+
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Ingrese texto para procesar" [(ngModel)]="embeddingText">
     </div>
+    <button class="btn btn-primary btn-sm" type="button" (click)="getEmbedding()">Obtener Embedding</button>
 
-    <div class="card w-25">
-      <div class="card-header text-white" (click)="toggleCardHealth()">
-        <button (click)="modelHealth()" class="btn btn-primary btn-sm">Salud del modelo</button>
-      </div>
-      <div class="card-body" *ngIf="showContentHealth">
-        <ul>
-          @if (infoModelHealth?.status) {
-          <li>Estado: {{ infoModelHealth?.status }}</li>
-          }
-          @if (infoModelHealth?.model) {
-          <li>Descripción: {{ infoModelHealth?.model }}</li>
-          }
-          @if (infoModelHealth?.api_url) {
-          <li>URL de la API: {{ infoModelHealth?.api_url }}</li>
-          }
-          @if (infoModelHealth?.test_embedding_dimensions) {
-          <li>Dimensiones de la prueba de incrustación: {{ infoModelHealth?.test_embedding_dimensions }}</li>
-          }
-          @if (infoModelHealth?.token_configured) {
-          <li>Tokenización: {{ infoModelHealth?.token_configured }}</li>
-          }
-        </ul>
-      </div>
-    </div>
-
-    <div class="card w-25">
-      <div class="card-header text-black" (click)="toggleCardEmbeddingSingle()">
-        <h5 class="card-title mb-0 btn-text">Generar un embedding a partir de un solo párrafo (Single-Embedding)</h5>
-      </div>
-      <div class="card-body" *ngIf="showContentEmbeddingSingle">
-        
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Ingrese texto para procesar" [(ngModel)]="embeddingText">
-        </div>
-        <button class="btn btn-primary btn-sm" type="button" (click)="getEmbedding()">Obtener Embedding</button>
-
-        <div *ngIf="embeddingResult">
-          <h6>Resultado:</h6>
-          <pre class="bg-light p-2"
-            style="max-height: 230px; overflow: auto;"><code>{{ embeddingResult | json }}</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <div class="card w-25">
-      <div class="card-header text-black" (click)="toggleCardEmbeddingMulti()">
-        <h5 class="card-title mb-0 btn-text">Generar mas de un embedding a partir de varios párrafos (Multi-Embedding)</h5>
-      </div>
-      <div class="card-body" *ngIf="showContentEmbeddingMulti">
-        
-        <div class="input-group mb-3">
-          <textarea class="form-control" rows="5"
-            placeholder='Ingrese textos entre comillas dobles separados por comas: "Texto Uno","Texto Dos"'
-            #rawMultiInput></textarea>
-        </div>
-        <button class="btn btn-primary btn-sm" type="button" (click)="handleMultiEmbedding(rawMultiInput.value)">Obtener
-          Multi-Embedding</button>
-
-        <div *ngIf="multiEmbeddingError" class="alert alert-danger mt-2">
-          {{ multiEmbeddingError }}
-        </div>
-        <div *ngIf="multiEmbeddingResult">
-          <h6>Resultado:</h6>
-          <pre class="bg-light p-2"
-            style="max-height: 230px; overflow: auto;"><code>{{ multiEmbeddingResult | json }}</code></pre>
-        </div>
-      </div>
+    <div *ngIf="embeddingResult">
+      <h6>Resultado:</h6>
+      <pre class="bg-light p-2"
+        style="max-height: 230px; overflow: auto;"><code>{{ embeddingResult | json }}</code></pre>
     </div>
   </div>
-</section>
+</div>
+
+<div class="card w-25">
+  <div class="card-header text-black" (click)="toggleCardEmbeddingMulti()">
+    <h5 class="card-title mb-0 btn-text">Generar mas de un embedding a partir de varios párrafos (Multi-Embedding)
+    </h5>
+  </div>
+  <div class="card-body" *ngIf="showContentEmbeddingMulti">
+
+    <div class="input-group mb-3">
+      <textarea class="form-control" rows="5"
+        placeholder='Ingrese textos entre comillas dobles separados por comas: "Texto Uno","Texto Dos"'
+        #rawMultiInput></textarea>
+    </div>
+    <button class="btn btn-primary btn-sm" type="button" (click)="handleMultiEmbedding(rawMultiInput.value)">Obtener
+      Multi-Embedding</button>
+
+    <div *ngIf="multiEmbeddingError" class="alert alert-danger mt-2">
+      {{ multiEmbeddingError }}
+    </div>
+    <div *ngIf="multiEmbeddingResult">
+      <h6>Resultado:</h6>
+      <pre class="bg-light p-2"
+        style="max-height: 230px; overflow: auto;"><code>{{ multiEmbeddingResult | json }}</code></pre>
+    </div>
+  </div>
+</div>
