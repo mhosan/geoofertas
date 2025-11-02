@@ -44,26 +44,27 @@
 <!-- Contenedor de Pestañas para Documentos -->
 <div style="position: absolute; top: 24px; left: 49.3%; transform: translateX(-50%); z-index: 10000; width: 620px;">
   <div class="card border-info">
+
     <!-- Pestañas de Navegación -->
-    <div class="card-header bg-primary d-flex justify-content-between align-items-center p-0">
-      <ul class="nav nav-tabs card-header-tabs" id="documentosTab" role="tablist">
+    <div class="card-header d-flex justify-content-between align-items-center p-0">
+      <ul class="nav nav-tabs" id="documentosTab" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active text-white bg-primary" id="primeros-tab" data-bs-toggle="tab"
+          <button class="nav-link active text-white bg-primary btn-sm" id="primeros-tab" data-bs-toggle="tab"
             data-bs-target="#primeros-tab-pane" type="button" role="tab" aria-controls="primeros-tab-pane"
             aria-selected="true" (click)="setActiveTab('primeros-tab-pane')">Primeros</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link text-white bg-primary" id="ultimos-tab" data-bs-toggle="tab"
+          <button class="nav-link text-white bg-primary btn-sm" id="ultimos-tab" data-bs-toggle="tab"
             data-bs-target="#ultimos-tab-pane" type="button" role="tab" aria-controls="ultimos-tab-pane"
             aria-selected="false" (click)="setActiveTab('ultimos-tab-pane')">Últimos</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link text-white bg-primary" id="rango-tab" data-bs-toggle="tab"
+          <button class="nav-link text-white bg-primary btn-sm" id="rango-tab" data-bs-toggle="tab"
             data-bs-target="#rango-tab-pane" type="button" role="tab" aria-controls="rango-tab-pane"
             aria-selected="false" (click)="setActiveTab('rango-tab-pane')">Rango</button>
         </li>
       </ul>
-      <!-- NOTA: Asegúrate de que el método closeDocumentsTabs() oculte este componente -->
+      
       <button class="btn btn-sm btn-light me-2" (click)="closeDocumentsTabs()" title="Cerrar">&times;</button>
     </div>
 
@@ -193,8 +194,8 @@
           </div>
         </div>
 
-      </div>
-    </div>
+      </div> 
+    </div> 
 
   </div>
 </div>
