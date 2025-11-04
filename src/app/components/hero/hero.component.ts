@@ -37,6 +37,10 @@ export class HeroComponent {
   multiEmbeddingError: string | null = null;
   documentsInfo: any = null;
   activeTabId: string = 'primeros-tab-pane';
+  searchResults: any[] = [];
+  searchQuery: string = '';
+  searchLimit: number = 5;
+  showSearchResults: boolean = false;
 
   constructor(private infoModelsService: InfoModelsService, private embeddingService: EmbeddingService) {
     // Cargar la info de documents al inicializar el componente
@@ -211,6 +215,27 @@ export class HeroComponent {
     this.getMultiEmbedding();
   }
 
+  searchEmbedding(): void {
+    
+    if (!this.searchQuery.trim()) {
+      alert('El texto para la búsqueda no puede estar vacío.');
+      return;
+    }
+    this.embeddingService.searchEmbedding(this.searchQuery, this.searchLimit).subscribe({
+      next: (data) => {
+        this.searchResults = data.results;
+        this.showSearchResults = true;
+      },
+      error: (err) => {
+        console.error('Error en la búsqueda:', err);
+        this.searchResults = [];
+        this.showSearchResults = false;
+      }
+    });
+  }
+
+
+  
   toggleCardInfo() {
     this.showContentInfo = !this.showContentInfo;
   }

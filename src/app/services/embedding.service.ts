@@ -32,11 +32,11 @@ export class EmbeddingService {
     return this.http.get<any>(requestUrl, { params });
   }
 
-  /**
+  /*************************************************************************
    * Obtiene los últimos n registros de la tabla documents.
    * @param n cantidad de registros a recuperar
    * @returns Observable<any> con los últimos n documentos
-   */
+   ************************************************************************/
   getLatestDocuments(n: number): Observable<any> {
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/documents/latest` : '/api/documents/latest';
@@ -44,7 +44,7 @@ export class EmbeddingService {
     return this.http.get<any>(requestUrl, { params });
   }
 
-  /**
+  /*************************************************************************
    * Obtiene un rango de registros de la tabla documents.
    * @param startId ID de inicio del rango
    * @param endId ID de fin del rango
@@ -52,8 +52,7 @@ export class EmbeddingService {
    * https://embeddings-back.vercel.app/documents/range?start_id=45&end_id=50
    * @param text 
    * @returns 
-   * https://embeddings-back.vercel.app/documents/range?start_id=45&end_id=50
-   */
+   *************************************************************************/
   getDocumentsRange(startId: number, endId: number): Observable<any> {
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/documents/range` : '/api/documents/range';
@@ -73,6 +72,11 @@ export class EmbeddingService {
     return this.http.delete<any>(requestUrl);
   }
 
+  /***************************************************************************
+   * Obtiene un embedding único a partir de un texto.
+   * @param text 
+   * @returns 
+   ***************************************************************************/
   getSingleEmbedding(text: string): Observable<any>{
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/embedding` : '/api/embedding';
@@ -82,11 +86,32 @@ export class EmbeddingService {
     return this.http.post<any>(requestUrl, null, { params });
   }
 
+  /***************************************************************************
+   * Obtiene múltiples embeddings a partir de un array de textos.
+   * @param data 
+   * @returns 
+   ***************************************************************************/
   getMultiEmbedding(data: { texts: string[] }): Observable<any> {
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/embeddings` : '/api/embeddings';
     
     return this.http.post<any>(requestUrl, data);
   }
+
+
+  /***************************************************************************
+   * Realiza una búsqueda de embeddings a partir de un texto.
+   * @param text El texto para la búsqueda.
+   * @param limit El número máximo de resultados a devolver.
+   * @returns Un Observable con los resultados de la búsqueda.
+   ***************************************************************************/
+  searchEmbedding(text: string, limit: number): Observable<any> {
+    const baseUrl = environment.apiUrl;
+    const requestUrl = baseUrl ? `${baseUrl}/search` : '/api/search';
+    const params = new HttpParams().set('text', text).set('limit', limit.toString());
+    return this.http.post<any>(requestUrl, {}, { params });
+  }
+
+
 }
  
