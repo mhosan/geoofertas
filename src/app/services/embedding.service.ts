@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class EmbeddingService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /*************************************************************************
    * Obtiene información sobre la tabla documents desde el endpoint externo.
@@ -47,16 +47,14 @@ export class EmbeddingService {
   /*************************************************************************
    * Obtiene un rango de registros de la tabla documents.
    * @param startId ID de inicio del rango
-   * @param endId ID de fin del rango
+   * @param n Cantidad de registros a recuperar
    * @returns Observable<any> con los documentos en el rango especificado
-   * https://embeddings-back.vercel.app/documents/range?start_id=45&end_id=50
-   * @param text 
-   * @returns 
+   * https://embeddings-back.vercel.app/documents/range?start_id=45&limit=10
    *************************************************************************/
-  getDocumentsRange(startId: number, endId: number): Observable<any> {
+  getDocumentsRange(startId: number, limit: number): Observable<any> {
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/documents/range` : '/api/documents/range';
-    const params = new HttpParams().set('start_id', startId.toString()).set('end_id', endId.toString());
+    const params = new HttpParams().set('start_id', startId.toString()).set('limit', limit.toString());
     return this.http.get<any>(requestUrl, { params });
   }
 
@@ -68,7 +66,7 @@ export class EmbeddingService {
   deleteEmbeddingById(id: number): Observable<any> {
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/documents/${id}` : `/api/documents/${id}`;
-    
+
     return this.http.delete<any>(requestUrl);
   }
 
@@ -77,12 +75,12 @@ export class EmbeddingService {
    * @param text 
    * @returns 
    ***************************************************************************/
-  getSingleEmbedding(text: string): Observable<any>{
+  getSingleEmbedding(text: string): Observable<any> {
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/embedding` : '/api/embedding';
-    
+
     const params = new HttpParams().set('text', text);
-    
+
     return this.http.post<any>(requestUrl, null, { params });
   }
 
@@ -94,7 +92,7 @@ export class EmbeddingService {
   getMultiEmbedding(data: { texts: string[] }): Observable<any> {
     const baseUrl = environment.apiUrl;
     const requestUrl = baseUrl ? `${baseUrl}/embeddings` : '/api/embeddings';
-    
+
     return this.http.post<any>(requestUrl, data);
   }
 
@@ -114,4 +112,3 @@ export class EmbeddingService {
 
 
 }
- 

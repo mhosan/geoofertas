@@ -142,11 +142,11 @@
                 <label for="documentsRangeStartId" class="me-2 mb-0">Desde ID:</label>
                 <input id="documentsRangeStartId" type="number" min="1" [(ngModel)]="documentsRangeStartId"
                   class="form-control form-control-sm w-auto me-2" />
-                <label for="documentsRangeEndId" class="me-2 mb-0">Hasta ID:</label>
-                <input id="documentsRangeEndId" type="number" min="1" [(ngModel)]="documentsRangeEndId"
+                <label for="documentsRangeCount" class="me-2 mb-0">Cantidad:</label>
+                <input id="documentsRangeCount" type="number" min="1" [(ngModel)]="documentsRangeCount"
                   class="form-control form-control-sm w-auto me-2" />
                 <button class="btn btn-primary btn-sm"
-                  (click)="loadDocumentsRange(documentsRangeStartId, documentsRangeEndId)">OK</button>
+                  (click)="loadDocumentsRange(documentsRangeStartId, documentsRangeCount)">OK</button>
               </div>
               <div class="table-responsive" *ngIf="documentsRange.length > 0">
                 <table class="table table-sm table-bordered mb-0">

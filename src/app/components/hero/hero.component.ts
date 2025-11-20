@@ -23,7 +23,7 @@ export class HeroComponent {
   earliestDocumentsCount: number = 5;
   latestDocumentsCount: number = 5;
   documentsRangeStartId: number = 0;
-  documentsRangeEndId: number = 0;
+  documentsRangeCount: number = 5;
   infoModel: InfoModel | undefined;
   infoModelHealth: any;
   showContentInfo = false;
@@ -68,16 +68,16 @@ export class HeroComponent {
     }
   }
 
-  // Método para obtener un rango de documentos
-  loadDocumentsRange(startId: number, endId: number): void {
-    this.embeddingService.getDocumentsRange(startId, endId).subscribe({
+  // Método para obtener un rango de documentos a partir de un ID inicial
+  loadDocumentsRange(startId: number, count: number): void {
+    this.embeddingService.getDocumentsRange(startId, count).subscribe({
       next: (data) => {
         this.documentsRange = Array.isArray(data.documents_range) ? data.documents_range : [];
-      this.showDocumentsRangeTable = true;
+        this.showDocumentsRangeTable = true;
       },
       error: (err) => {
         this.documentsRange = [];
-      this.showDocumentsRangeTable = true;
+        this.showDocumentsRangeTable = true;
       }
     });
   }
@@ -216,7 +216,7 @@ export class HeroComponent {
   }
 
   searchEmbedding(): void {
-    
+
     if (!this.searchQuery.trim()) {
       alert('El texto para la búsqueda no puede estar vacío.');
       return;
@@ -235,7 +235,7 @@ export class HeroComponent {
   }
 
 
-  
+
   toggleCardInfo() {
     this.showContentInfo = !this.showContentInfo;
   }
