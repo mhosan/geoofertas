@@ -21,7 +21,7 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-             "baseHref": "/",
+            "baseHref": "/embeddings/",
             "assets": [
               "src/assets",
               {
@@ -38,8 +38,7 @@
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ],
-            "browser": "src/main.ts"
-            ,
+            "browser": "src/main.ts",
             "allowedCommonJsDependencies": [
               "leaflet",
               "axios-retry",
@@ -113,7 +112,7 @@
                 "input": "public",
                 "output": "/assets/leaflet/"
               },
-               "src/assets"
+              "src/assets"
             ],
             "styles": [
               "src/styles.css",
